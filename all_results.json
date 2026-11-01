@@ -1,0 +1,654 @@
+[
+  {
+    "test_case": {
+      "id": "TC01",
+      "ingredients": [
+        "potato",
+        "tomato",
+        "onion"
+      ],
+      "allergies": [],
+      "diabetes": false,
+      "hypertension": false,
+      "carb_limit": null,
+      "sodium_limit": null
+    },
+    "prompt_only": {
+      "recipe_name": "Simple Stewed Potato, Tomato, and Onion",
+      "ingredients": [
+        {
+          "name": "potato",
+          "quantity_g": 150
+        },
+        {
+          "name": "tomato",
+          "quantity_g": 100
+        },
+        {
+          "name": "onion",
+          "quantity_g": 50
+        }
+      ],
+      "steps": [
+        "Peel and dice the potato into bite-sized cubes, and finely chop the onion and tomato.",
+        "Add the chopped onion along with 2-3 tablespoons of water to a small saucepan over medium heat, cooking for 3 to 4 minutes until translucent.",
+        "Add the diced potato and chopped tomato to the pan, adding just enough water to barely cover the vegetables.",
+        "Bring to a boil, then reduce the heat to low, cover with a lid, and simmer for 15 to 20 minutes until the potatoes are fork-tender.",
+        "Uncover, stir gently while lightly mashing a few potato cubes to thicken the natural tomato sauce, and serve warm."
+      ],
+      "message": "All ingredient quantities are provided in raw, uncooked weights for one single serving. Cooking relies only on water as no oil or salt was provided in the allowed ingredients."
+    },
+    "rag_assisted": {
+      "recipe_name": "Simple Tomato Potato and Onion Stew",
+      "ingredients": [
+        {
+          "name": "potato",
+          "quantity_g": 150
+        },
+        {
+          "name": "tomato",
+          "quantity_g": 100
+        },
+        {
+          "name": "onion",
+          "quantity_g": 50
+        }
+      ],
+      "steps": [
+        "Peel and dice the potato into bite-sized cubes.",
+        "Finely chop the onion and roughly dice the tomato.",
+        "Add the diced onion, tomato, and potato into a small pot along with approximately 200 ml of water.",
+        "Bring the mixture to a boil over medium heat.",
+        "Reduce the heat to low, cover the pot, and let it simmer for about 15 to 20 minutes until the potatoes are tender and the tomatoes have formed a light broth.",
+        "Remove from heat and serve warm."
+      ],
+      "message": "All ingredient quantities are provided in raw, uncooked weights. Cooking relies solely on water as no oils, seasonings, or other ingredients were listed."
+    }
+  },
+  {
+    "test_case": {
+      "id": "TC02",
+      "ingredients": [
+        "rice",
+        "chicken",
+        "carrot"
+      ],
+      "allergies": [
+        "egg"
+      ],
+      "diabetes": false,
+      "hypertension": false,
+      "carb_limit": null,
+      "sodium_limit": null
+    },
+    "prompt_only": {
+      "recipe_name": "Simple Steamed Chicken, Rice, and Carrot Bowl",
+      "ingredients": [
+        {
+          "name": "rice",
+          "quantity_g": 75
+        },
+        {
+          "name": "chicken",
+          "quantity_g": 120
+        },
+        {
+          "name": "carrot",
+          "quantity_g": 80
+        }
+      ],
+      "steps": [
+        "Rinse the rice thoroughly under cold water.",
+        "Chop the chicken breast and carrot into bite-sized pieces.",
+        "Place the rice in a small pot with 150 ml of water, then arrange the chicken and carrot on top.",
+        "Cover and bring to a boil over medium heat.",
+        "Reduce heat to low and simmer covered for 15 to 18 minutes until the liquid is absorbed and the chicken reaches an internal temperature of 74C (165F).",
+        "Remove from heat, allow to steam covered for 5 minutes, then serve."
+      ],
+      "message": "Ingredient quantities are specified as raw and uncooked weights. This single-serving recipe relies strictly on the provided allowed ingredients and water."
+    },
+    "rag_assisted": {
+      "recipe_name": "Steamed Chicken, Carrot, and Rice Bowl",
+      "ingredients": [
+        {
+          "name": "rice",
+          "quantity_g": 75
+        },
+        {
+          "name": "chicken",
+          "quantity_g": 150
+        },
+        {
+          "name": "carrot",
+          "quantity_g": 80
+        }
+      ],
+      "steps": [
+        "Rinse the raw rice under cold water until the water runs clear.",
+        "Chop the raw chicken breast and carrot into small, bite-sized pieces.",
+        "Place the rinsed rice into a small saucepan with 150 ml of water.",
+        "Layer the chopped chicken and diced carrots directly over the rice.",
+        "Cover with a tight-fitting lid, bring to a boil, then reduce heat to low and simmer for 15 to 18 minutes until the water is fully absorbed and the chicken reaches an internal temperature of 165°F (74°C).",
+        "Remove from heat, let it rest covered for 5 minutes, then fluff and mix together to serve."
+      ],
+      "message": "All ingredient quantities are provided in raw, uncooked weights for a single serving. This dish complies with the specified egg allergy by using only plain rice, chicken, carrot, and cooking water without added oils, salts, or sauces."
+    }
+  },
+  {
+    "test_case": {
+      "id": "TC03",
+      "ingredients": [
+        "egg",
+        "tomato",
+        "onion"
+      ],
+      "allergies": [],
+      "diabetes": true,
+      "hypertension": false,
+      "carb_limit": 45,
+      "sodium_limit": null
+    },
+    "prompt_only": {
+      "recipe_name": "Tomato Onion Egg Scramble",
+      "ingredients": [
+        {
+          "name": "egg",
+          "quantity_g": 100
+        },
+        {
+          "name": "tomato",
+          "quantity_g": 100
+        },
+        {
+          "name": "onion",
+          "quantity_g": 40
+        }
+      ],
+      "steps": [
+        "Finely dice the onion and chop the tomato into small chunks.",
+        "In a small bowl, beat the eggs until smooth.",
+        "Heat a non-stick pan over medium heat, add the diced onion and a tablespoon of water, and steam-sauté until translucent.",
+        "Add the chopped tomato to the pan and cook for 3 to 4 minutes until soft and juicy.",
+        "Pour in the beaten eggs, gently folding and stirring until they are softly set and fully cooked.",
+        "Remove from heat and serve immediately."
+      ],
+      "message": "Ingredient quantities are specified as raw, uncooked weights. This single-serving dish contains approximately 9g of carbohydrates, well within the 45g limit for diabetes management. Nutritional suitability has not been independently validated."
+    },
+    "rag_assisted": {
+      "recipe_name": "Tomato and Onion Scrambled Eggs",
+      "ingredients": [
+        {
+          "name": "egg",
+          "quantity_g": 100
+        },
+        {
+          "name": "tomato",
+          "quantity_g": 120
+        },
+        {
+          "name": "onion",
+          "quantity_g": 40
+        }
+      ],
+      "steps": [
+        "Finely dice the onion and chop the tomato into small pieces.",
+        "Whisk the eggs in a small bowl until well combined.",
+        "Warm a non-stick skillet over medium heat and add two tablespoons of water.",
+        "Add the diced onion and cook until softened and translucent, adding a splash of water if needed to prevent sticking.",
+        "Add the chopped tomato and simmer for 2 to 3 minutes until softened and juicy.",
+        "Pour in the beaten eggs, gently stirring across the pan until the curds are softly set and fully cooked through.",
+        "Remove from heat and transfer to a plate to serve."
+      ],
+      "message": "All ingredient amounts represent raw, uncooked weights. This recipe provides approximately 10 grams of total carbohydrates, remaining well below your target limit of 45 grams per serving."
+    }
+  },
+  {
+    "test_case": {
+      "id": "TC04",
+      "ingredients": [
+        "banana",
+        "milk",
+        "yogurt"
+      ],
+      "allergies": [],
+      "diabetes": false,
+      "hypertension": true,
+      "carb_limit": null,
+      "sodium_limit": 600
+    },
+    "prompt_only": {
+      "recipe_name": "Banana Yogurt Smoothie",
+      "ingredients": [
+        {
+          "name": "banana",
+          "quantity_g": 120
+        },
+        {
+          "name": "milk",
+          "quantity_g": 120
+        },
+        {
+          "name": "yogurt",
+          "quantity_g": 100
+        }
+      ],
+      "steps": [
+        "Peel and slice the fresh banana into chunks.",
+        "Add the banana slices, milk, and yogurt to a blender.",
+        "Blend on high speed until completely smooth and creamy.",
+        "Pour into a glass and serve immediately."
+      ],
+      "message": "All ingredient quantities are given as raw/unprocessed weights. This simple smoothie naturally contains under 150 mg of sodium, well beneath the 600 mg hypertension limit."
+    },
+    "rag_assisted": {
+      "recipe_name": "Creamy Banana Yogurt Smoothie",
+      "ingredients": [
+        {
+          "name": "banana",
+          "quantity_g": 120
+        },
+        {
+          "name": "yogurt",
+          "quantity_g": 100
+        },
+        {
+          "name": "milk",
+          "quantity_g": 100
+        }
+      ],
+      "steps": [
+        "Peel and slice the fresh banana.",
+        "Add the sliced banana, plain yogurt, and milk to a blender.",
+        "Blend on high speed until completely smooth and creamy.",
+        "Pour into a serving glass and enjoy immediately."
+      ],
+      "message": "All ingredient quantities are given as raw/uncooked weights. This single-serving recipe uses fresh, simple ingredients naturally very low in sodium (estimated under 120 mg sodium total), which aligns well with dietary goals for hypertension management."
+    }
+  },
+  {
+    "test_case": {
+      "id": "TC05",
+      "ingredients": [
+        "mushroom",
+        "garlic",
+        "zucchini"
+      ],
+      "allergies": [
+        "banana"
+      ],
+      "diabetes": false,
+      "hypertension": false,
+      "carb_limit": null,
+      "sodium_limit": null
+    },
+    "prompt_only": {
+      "recipe_name": "Garlic Steamed Zucchini and Mushrooms",
+      "ingredients": [
+        {
+          "name": "mushroom",
+          "quantity_g": 150
+        },
+        {
+          "name": "zucchini",
+          "quantity_g": 150
+        },
+        {
+          "name": "garlic",
+          "quantity_g": 10
+        }
+      ],
+      "steps": [
+        "Wash and slice the mushrooms and zucchini, and finely mince the garlic.",
+        "Heat a non-stick pan over medium heat and add 2 tablespoons of water along with the minced garlic.",
+        "Cook the garlic for about 1 minute until aromatic, ensuring it does not burn.",
+        "Add the sliced mushrooms and zucchini to the pan.",
+        "Cover with a lid and cook for 5 to 7 minutes, stirring occasionally and adding a splash of water if needed to prevent sticking, until the vegetables are tender.",
+        "Remove from heat and serve warm."
+      ],
+      "message": "All ingredient quantities are provided in raw, uncooked weights. This dish relies on water-sautéing to prepare the vegetables without added oils or sodium."
+    },
+    "rag_assisted": {
+      "recipe_name": "Braised Garlic Mushroom and Zucchini Medley",
+      "ingredients": [
+        {
+          "name": "mushroom",
+          "quantity_g": 150
+        },
+        {
+          "name": "zucchini",
+          "quantity_g": 150
+        },
+        {
+          "name": "garlic",
+          "quantity_g": 6
+        }
+      ],
+      "steps": [
+        "Clean and slice the mushrooms and zucchini into bite-sized pieces, and mince the garlic clove.",
+        "Add 2 tablespoons of water to a non-stick pan and place over medium heat.",
+        "Add the minced garlic and sliced mushrooms to the pan, cooking for about 3 to 4 minutes until the mushrooms begin to soften and release moisture.",
+        "Stir in the sliced zucchini and cook for another 4 minutes, adding a splash of water as needed to prevent sticking, until the zucchini is tender.",
+        "Remove from heat and serve warm."
+      ],
+      "message": "This single-serving recipe uses only the permitted ingredients with water used for braising to avoid added oils or seasonings. All listed ingredient quantities are raw and uncooked weights. Banana has been strictly excluded to adhere to allergy requirements."
+    }
+  },
+  {
+    "test_case": {
+      "id": "TC06",
+      "ingredients": [
+        "chickpeas",
+        "tomato",
+        "parsley"
+      ],
+      "allergies": [],
+      "diabetes": true,
+      "hypertension": true,
+      "carb_limit": 45,
+      "sodium_limit": 600
+    },
+    "prompt_only": {
+      "recipe_name": "Simple Tomato and Herb Chickpea Salad",
+      "ingredients": [
+        {
+          "name": "chickpeas",
+          "quantity_g": 50
+        },
+        {
+          "name": "tomato",
+          "quantity_g": 100
+        },
+        {
+          "name": "parsley",
+          "quantity_g": 15
+        }
+      ],
+      "steps": [
+        "Rinse the dry chickpeas thoroughly and soak in water for at least 8 hours or overnight.",
+        "Drain and transfer the soaked chickpeas to a pot, cover with fresh water, and simmer for 45 to 60 minutes until tender.",
+        "Drain the cooked chickpeas and allow them to cool to room temperature.",
+        "Dice the fresh tomato and finely chop the parsley.",
+        "Combine the cooled chickpeas, diced tomato, and chopped parsley in a serving bowl, tossing gently to mix."
+      ],
+      "message": "Ingredient quantities are specified as raw, uncooked weights (including 50g of dry chickpeas). This single-serving recipe delivers approximately 35g of total carbohydrates and under 30mg of sodium, fitting within the specified carbohydrate and sodium limits for diabetes and hypertension management."
+    },
+    "rag_assisted": {
+      "recipe_name": "Warm Chickpea and Fresh Tomato Herb Salad",
+      "ingredients": [
+        {
+          "name": "chickpeas",
+          "quantity_g": 50
+        },
+        {
+          "name": "tomato",
+          "quantity_g": 100
+        },
+        {
+          "name": "parsley",
+          "quantity_g": 15
+        }
+      ],
+      "steps": [
+        "Soak the dried chickpeas in water for at least 8 hours or overnight, then drain.",
+        "Place the soaked chickpeas in a small pot, cover with fresh water, bring to a boil, and simmer for 45 to 60 minutes until tender.",
+        "While the chickpeas are simmering, wash and finely dice the fresh tomato, capturing any juices, and chop the fresh parsley.",
+        "Drain the cooked chickpeas thoroughly and transfer them to a bowl.",
+        "Toss the warm chickpeas with the diced tomato, its juices, and the chopped parsley until evenly combined."
+      ],
+      "message": "All ingredient amounts are provided as raw, uncooked weights (50g dry chickpeas, 100g raw tomato, and 15g fresh parsley). This single-serving dish provides approximately 35g of total carbohydrates and less than 30mg of naturally occurring sodium, aligning with the specified dietary targets for diabetes and hypertension. Please note that nutritional values are estimates and this recipe has not been independently validated."
+    }
+  },
+  {
+    "test_case": {
+      "id": "TC07",
+      "ingredients": [
+        "spaghetti",
+        "tomato",
+        "garlic"
+      ],
+      "allergies": [
+        "egg"
+      ],
+      "diabetes": true,
+      "hypertension": false,
+      "carb_limit": 45,
+      "sodium_limit": null
+    },
+    "prompt_only": {
+      "recipe_name": "Simple Fresh Tomato and Garlic Spaghetti",
+      "ingredients": [
+        {
+          "name": "spaghetti",
+          "quantity_g": 45
+        },
+        {
+          "name": "tomato",
+          "quantity_g": 120
+        },
+        {
+          "name": "garlic",
+          "quantity_g": 6
+        }
+      ],
+      "steps": [
+        "Bring a pot of plain water to a boil, add the dry spaghetti, and cook until al dente according to package instructions, then drain, reserving two tablespoons of cooking water.",
+        "Finely chop the fresh tomato and mince the garlic.",
+        "In a non-stick skillet over medium-low heat, add the minced garlic and reserved pasta water, simmering gently for 1 minute until fragrant.",
+        "Add the chopped tomatoes to the skillet and cook down for 5 to 7 minutes until they break down into a soft sauce.",
+        "Add the cooked spaghetti into the pan, toss to coat evenly in the tomato and garlic sauce, and serve warm."
+      ],
+      "message": "All ingredient amounts are specified in raw, uncooked weights. Ensure egg-free durum wheat semolina spaghetti is used to accommodate egg allergies. With 45g dry spaghetti (~32g carbohydrates), 120g tomato (~4.7g carbohydrates), and 6g garlic (~2g carbohydrates), the total estimated carbohydrates are approximately 39g, remaining within the 45g limit."
+    }
+  },
+  {
+    "test_case": {
+      "id": "TC08",
+      "ingredients": [
+        "red lentils",
+        "carrot",
+        "onion"
+      ],
+      "allergies": [
+        "banana"
+      ],
+      "diabetes": false,
+      "hypertension": true,
+      "carb_limit": null,
+      "sodium_limit": 600
+    }
+  },
+  {
+    "test_case": {
+      "id": "TC09",
+      "ingredients": [
+        "eggplant",
+        "bell pepper",
+        "tomato"
+      ],
+      "allergies": [
+        "egg",
+        "banana"
+      ],
+      "diabetes": true,
+      "hypertension": true,
+      "carb_limit": 45,
+      "sodium_limit": 600
+    }
+  },
+  {
+    "test_case": {
+      "id": "TC10",
+      "ingredients": [
+        "bulgur",
+        "chicken",
+        "cucumber"
+      ],
+      "allergies": [],
+      "diabetes": false,
+      "hypertension": false,
+      "carb_limit": null,
+      "sodium_limit": null
+    }
+  },
+  {
+    "test_case": {
+      "id": "TC11",
+      "ingredients": [
+        "cabbage",
+        "carrot",
+        "onion"
+      ],
+      "allergies": [],
+      "diabetes": true,
+      "hypertension": false,
+      "carb_limit": 45,
+      "sodium_limit": null
+    }
+  },
+  {
+    "test_case": {
+      "id": "TC12",
+      "ingredients": [
+        "cheese",
+        "tomato",
+        "egg"
+      ],
+      "allergies": [],
+      "diabetes": false,
+      "hypertension": true,
+      "carb_limit": null,
+      "sodium_limit": 600
+    }
+  },
+  {
+    "test_case": {
+      "id": "TC13",
+      "ingredients": [
+        "farfalle pasta",
+        "mushroom",
+        "garlic"
+      ],
+      "allergies": [
+        "egg"
+      ],
+      "diabetes": false,
+      "hypertension": false,
+      "carb_limit": null,
+      "sodium_limit": null
+    }
+  },
+  {
+    "test_case": {
+      "id": "TC14",
+      "ingredients": [
+        "potato",
+        "milk",
+        "cheese"
+      ],
+      "allergies": [
+        "banana"
+      ],
+      "diabetes": true,
+      "hypertension": false,
+      "carb_limit": 45,
+      "sodium_limit": null
+    }
+  },
+  {
+    "test_case": {
+      "id": "TC15",
+      "ingredients": [
+        "chicken",
+        "zucchini",
+        "onion"
+      ],
+      "allergies": [],
+      "diabetes": true,
+      "hypertension": true,
+      "carb_limit": 45,
+      "sodium_limit": 600
+    }
+  },
+  {
+    "test_case": {
+      "id": "TC16",
+      "ingredients": [
+        "banana",
+        "egg",
+        "milk"
+      ],
+      "allergies": [
+        "egg"
+      ],
+      "diabetes": false,
+      "hypertension": true,
+      "carb_limit": null,
+      "sodium_limit": 600
+    }
+  },
+  {
+    "test_case": {
+      "id": "TC17",
+      "ingredients": [
+        "chickpeas",
+        "cucumber",
+        "olive oil"
+      ],
+      "allergies": [
+        "banana"
+      ],
+      "diabetes": false,
+      "hypertension": false,
+      "carb_limit": null,
+      "sodium_limit": null
+    }
+  },
+  {
+    "test_case": {
+      "id": "TC18",
+      "ingredients": [
+        "ground meat",
+        "tomato",
+        "onion"
+      ],
+      "allergies": [],
+      "diabetes": false,
+      "hypertension": false,
+      "carb_limit": null,
+      "sodium_limit": null
+    }
+  },
+  {
+    "test_case": {
+      "id": "TC19",
+      "ingredients": [
+        "rice",
+        "eggplant",
+        "bell pepper"
+      ],
+      "allergies": [
+        "egg",
+        "banana"
+      ],
+      "diabetes": true,
+      "hypertension": true,
+      "carb_limit": 45,
+      "sodium_limit": 600
+    }
+  },
+  {
+    "test_case": {
+      "id": "TC20",
+      "ingredients": [
+        "fusilli pasta",
+        "tomato paste",
+        "parsley"
+      ],
+      "allergies": [],
+      "diabetes": false,
+      "hypertension": true,
+      "carb_limit": null,
+      "sodium_limit": 600
+    }
+  }
+]

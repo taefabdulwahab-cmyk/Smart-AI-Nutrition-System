@@ -1,0 +1,139 @@
+
+[
+  {
+    "test_case_id": "TC01",
+    "method": "prompt_only",
+    "recipe_name": "Potato Tomato Onion Recipe",
+    "ingredients": [
+      {
+        "name": "potato",
+        "quantity_g": 100
+      },
+      {
+        "name": "tomato",
+        "quantity_g": 150
+      },
+      {
+        "name": "onion",
+        "quantity_g": 50
+      }
+    ],
+    "allergies": ["egg", "banana"],
+    "diabetes": true,
+    "hypertension": true,
+    "carb_limit_g": null,
+    "sodium_limit_mg": null
+  },
+  {
+    "test_case_id": "TC01",
+    "method": "rag_assisted",
+    "recipe_name": "Potato Tomato Onion Recipe",
+    "ingredients": [
+      {
+        "name": "potato",
+        "quantity_g": 80
+      },
+      {
+        "name": "tomato",
+        "quantity_g": 150
+      },
+      {
+        "name": "onion",
+        "quantity_g": 100
+      }
+    ],
+    "allergies": ["egg", "banana"],
+    "diabetes": true,
+    "hypertension": true,
+    "carb_limit_g": null,
+    "sodium_limit_mg": null
+  },
+  {
+    "test_case_id": "TC02",
+    "method": "prompt_only",
+    "recipe_name": "Tomato Onion Recipe",
+    "ingredients": [
+      {
+        "name": "tomato",
+        "quantity_g": 200
+      },
+      {
+        "name": "onion",
+        "quantity_g": 50
+      }
+    ],
+    "allergies": ["egg"],
+    "diabetes": false,
+    "hypertension": false,
+    "carb_limit_g": null,
+    "sodium_limit_mg": null
+  },
+  {
+    "test_case_id": "TC02",
+    "method": "rag_assisted",
+    "recipe_name": "Tomato Onion Recipe",
+    "ingredients": [
+      {
+        "name": "tomato",
+        "quantity_g": 200
+      },
+      {
+        "name": "onion",
+        "quantity_g": 100
+      }
+    ],
+    "allergies": ["egg"],
+    "diabetes": false,
+    "hypertension": false,
+    "carb_limit_g": null,
+    "sodium_limit_mg": null
+  },
+  {
+    "test_case_id": "TC03",
+    "method": "prompt_only",
+    "recipe_name": "Chicken Carrot Rice Recipe",
+    "ingredients": [
+      {
+        "name": "chicken",
+        "quantity_g": 150
+      },
+      {
+        "name": "carrot",
+        "quantity_g": 100
+      },
+      {
+        "name": "rice",
+        "quantity_g": 45
+      }
+    ],
+    "allergies": [],
+    "diabetes": true,
+    "hypertension": false,
+    "carb_limit_g": null,
+    "sodium_limit_mg": null
+  },
+  {
+    "test_case_id": "TC03",
+    "method": "rag_assisted",
+    "recipe_name": "Chicken Carrot Rice Recipe",
+    "ingredients": [
+      {
+        "name": "chicken",
+        "quantity_g": 150
+      },
+      {
+        "name": "carrot",
+        "quantity_g": 100
+      },
+      {
+        "name": "rice",
+        "quantity_g": 40
+      }
+    ],
+    "allergies": [],
+    "diabetes": true,
+    "hypertension": false,
+    "carb_limit_g": null,
+    "sodium_limit_mg": null
+  }
+]
