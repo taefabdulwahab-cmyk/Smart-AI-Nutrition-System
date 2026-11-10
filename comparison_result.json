@@ -1,0 +1,63 @@
+{
+  "test_case": {
+    "ingredients": [
+      "rice",
+      "chicken",
+      "carrot"
+    ],
+    "allergies": [],
+    "diabetes": true,
+    "hypertension": false,
+    "carb_limit": null,
+    "sodium_limit": null
+  },
+  "prompt_only": {
+    "recipe_name": "Steamed Chicken and Carrot Rice Bowl",
+    "ingredients": [
+      {
+        "name": "chicken",
+        "quantity_g": 150
+      },
+      {
+        "name": "carrot",
+        "quantity_g": 100
+      },
+      {
+        "name": "rice",
+        "quantity_g": 45
+      }
+    ],
+    "steps": [
+      "Rinse the rice thoroughly.",
+      "Dice the chicken and carrots into small, uniform cubes.",
+      "Boil or steam the rice in water until fully cooked.",
+      "Steam or boil the chicken cubes and carrots until the chicken is cooked through and the carrots are tender.",
+      "Combine the cooked chicken, carrots, and rice in a bowl and serve warm."
+    ],
+    "message": "Recipe tailored for diabetes management by using a controlled portion of rice balanced with lean chicken protein and fibrous carrots."
+  },
+  "rag_assisted": {
+    "recipe_name": "Steamed Chicken and Carrot Rice Bowl",
+    "ingredients": [
+      {
+        "name": "chicken",
+        "quantity_g": 150
+      },
+      {
+        "name": "carrot",
+        "quantity_g": 100
+      },
+      {
+        "name": "rice",
+        "quantity_g": 40
+      }
+    ],
+    "steps": [
+      "Rinse the rice and boil in water until fully cooked and tender.",
+      "Dice the chicken into bite-sized pieces and slice the carrot into rounds.",
+      "Steam the chicken pieces and carrot slices together until the chicken is cooked through and the carrots are fork-tender.",
+      "Transfer the cooked rice to a bowl and top with the steamed chicken and carrots before serving."
+    ],
+    "message": "Portion-controlled rice is paired with lean chicken protein and fibrous carrots to promote balanced blood glucose levels in accordance with diabetic dietary guidance."
+  }
+}

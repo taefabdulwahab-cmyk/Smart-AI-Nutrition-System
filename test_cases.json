@@ -1,0 +1,284 @@
+[
+  {
+    "id": "TC01",
+    "ingredients": [
+      "potato",
+      "tomato",
+      "onion"
+    ],
+    "allergies": [],
+    "diabetes": false,
+    "hypertension": false,
+    "carb_limit": null,
+    "sodium_limit": null
+  },
+  {
+    "id": "TC02",
+    "ingredients": [
+      "rice",
+      "chicken",
+      "carrot"
+    ],
+    "allergies": [
+      "egg"
+    ],
+    "diabetes": false,
+    "hypertension": false,
+    "carb_limit": null,
+    "sodium_limit": null
+  },
+  {
+    "id": "TC03",
+    "ingredients": [
+      "egg",
+      "tomato",
+      "onion"
+    ],
+    "allergies": [],
+    "diabetes": true,
+    "hypertension": false,
+    "carb_limit": 45,
+    "sodium_limit": null
+  },
+  {
+    "id": "TC04",
+    "ingredients": [
+      "banana",
+      "milk",
+      "yogurt"
+    ],
+    "allergies": [],
+    "diabetes": false,
+    "hypertension": true,
+    "carb_limit": null,
+    "sodium_limit": 600
+  },
+  {
+    "id": "TC05",
+    "ingredients": [
+      "mushroom",
+      "garlic",
+      "zucchini"
+    ],
+    "allergies": [
+      "banana"
+    ],
+    "diabetes": false,
+    "hypertension": false,
+    "carb_limit": null,
+    "sodium_limit": null
+  },
+  {
+    "id": "TC06",
+    "ingredients": [
+      "chickpeas",
+      "tomato",
+      "parsley"
+    ],
+    "allergies": [],
+    "diabetes": true,
+    "hypertension": true,
+    "carb_limit": 45,
+    "sodium_limit": 600
+  },
+  {
+    "id": "TC07",
+    "ingredients": [
+      "spaghetti",
+      "tomato",
+      "garlic"
+    ],
+    "allergies": [
+      "egg"
+    ],
+    "diabetes": true,
+    "hypertension": false,
+    "carb_limit": 45,
+    "sodium_limit": null
+  },
+  {
+    "id": "TC08",
+    "ingredients": [
+      "red lentils",
+      "carrot",
+      "onion"
+    ],
+    "allergies": [
+      "banana"
+    ],
+    "diabetes": false,
+    "hypertension": true,
+    "carb_limit": null,
+    "sodium_limit": 600
+  },
+  {
+    "id": "TC09",
+    "ingredients": [
+      "eggplant",
+      "bell pepper",
+      "tomato"
+    ],
+    "allergies": [
+      "egg",
+      "banana"
+    ],
+    "diabetes": true,
+    "hypertension": true,
+    "carb_limit": 45,
+    "sodium_limit": 600
+  },
+  {
+    "id": "TC10",
+    "ingredients": [
+      "bulgur",
+      "chicken",
+      "cucumber"
+    ],
+    "allergies": [],
+    "diabetes": false,
+    "hypertension": false,
+    "carb_limit": null,
+    "sodium_limit": null
+  },
+  {
+    "id": "TC11",
+    "ingredients": [
+      "cabbage",
+      "carrot",
+      "onion"
+    ],
+    "allergies": [],
+    "diabetes": true,
+    "hypertension": false,
+    "carb_limit": 45,
+    "sodium_limit": null
+  },
+  {
+    "id": "TC12",
+    "ingredients": [
+      "cheese",
+      "tomato",
+      "egg"
+    ],
+    "allergies": [],
+    "diabetes": false,
+    "hypertension": true,
+    "carb_limit": null,
+    "sodium_limit": 600
+  },
+  {
+    "id": "TC13",
+    "ingredients": [
+      "farfalle pasta",
+      "mushroom",
+      "garlic"
+    ],
+    "allergies": [
+      "egg"
+    ],
+    "diabetes": false,
+    "hypertension": false,
+    "carb_limit": null,
+    "sodium_limit": null
+  },
+  {
+    "id": "TC14",
+    "ingredients": [
+      "potato",
+      "milk",
+      "cheese"
+    ],
+    "allergies": [
+      "banana"
+    ],
+    "diabetes": true,
+    "hypertension": false,
+    "carb_limit": 45,
+    "sodium_limit": null
+  },
+  {
+    "id": "TC15",
+    "ingredients": [
+      "chicken",
+      "zucchini",
+      "onion"
+    ],
+    "allergies": [],
+    "diabetes": true,
+    "hypertension": true,
+    "carb_limit": 45,
+    "sodium_limit": 600
+  },
+  {
+    "id": "TC16",
+    "ingredients": [
+      "banana",
+      "egg",
+      "milk"
+    ],
+    "allergies": [
+      "egg"
+    ],
+    "diabetes": false,
+    "hypertension": true,
+    "carb_limit": null,
+    "sodium_limit": 600
+  },
+  {
+    "id": "TC17",
+    "ingredients": [
+      "chickpeas",
+      "cucumber",
+      "olive oil"
+    ],
+    "allergies": [
+      "banana"
+    ],
+    "diabetes": false,
+    "hypertension": false,
+    "carb_limit": null,
+    "sodium_limit": null
+  },
+  {
+    "id": "TC18",
+    "ingredients": [
+      "ground meat",
+      "tomato",
+      "onion"
+    ],
+    "allergies": [],
+    "diabetes": false,
+    "hypertension": false,
+    "carb_limit": null,
+    "sodium_limit": null
+  },
+  {
+    "id": "TC19",
+    "ingredients": [
+      "rice",
+      "eggplant",
+      "bell pepper"
+    ],
+    "allergies": [
+      "egg",
+      "banana"
+    ],
+    "diabetes": true,
+    "hypertension": true,
+    "carb_limit": 45,
+    "sodium_limit": 600
+  },
+  {
+    "id": "TC20",
+    "ingredients": [
+      "fusilli pasta",
+      "tomato paste",
+      "parsley"
+    ],
+    "allergies": [],
+    "diabetes": false,
+    "hypertension": true,
+    "carb_limit": null,
+    "sodium_limit": 600
+  }
+]

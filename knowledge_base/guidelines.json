@@ -1,0 +1,36 @@
+{
+  "guidelines": [
+    {
+      "id": "diabetes_carbs",
+      "category": "diabetes",
+      "keyword": "diabetes",
+      "guideline": "Count total carbohydrates in grams for the recipe. Consider portion sizes, especially for starchy ingredients. Prefer minimally processed foods and non-starchy vegetables. Follow the user's specified carbohydrate limit; there is no universal carbohydrate limit per meal.",
+      "source": "ADA",
+      "url": "https://diabetes.org/food-nutrition/understanding-carbs/carb-counting-and-diabetes"
+    },
+    {
+      "id": "hypertension_sodium",
+      "category": "hypertension",
+      "keyword": "hypertension",
+      "guideline": "Reduce sodium intake. WHO recommends less than 2000 mg sodium per day for adults. Prefer fresh foods, minimize added salt, and use herbs and spices for flavor. Follow the user's specified sodium limit per recipe.",
+      "source": "WHO",
+      "url": "https://www.who.int/news-room/fact-sheets/detail/sodium-reduction"
+    },
+    {
+      "id": "allergy_egg",
+      "category": "allergy",
+      "keyword": "egg",
+      "guideline": "For a user with an egg allergy, exclude eggs and ingredients containing egg proteins. Check ingredient labels for egg allergens.",
+      "source": "FDA",
+      "url": "https://www.fda.gov/food/buy-store-serve-safe-food/food-allergies-what-you-need-know"
+    },
+    {
+      "id": "allergy_banana",
+      "category": "allergy",
+      "keyword": "banana",
+      "guideline": "For a user reporting banana allergy, exclude banana from the recipe. Banana can cause allergic reactions, including in some people with latex-fruit cross-reactivity.",
+      "source": "NHS UK",
+      "url": "https://www.leedsth.nhs.uk/patients/resources/latex-allergy/"
+    }
+  ]
+}
