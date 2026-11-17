@@ -1,4 +1,3 @@
-
 import json
 from pathlib import Path
 
@@ -11,547 +10,247 @@ from nutrition_validator import (
 )
 
 
-# ==========================================
-# Experimental Project Thresholds
-# ==========================================
-
-SUGAR_LIMIT = 10          # g per recipe
-CARBS_LIMIT = 45          # g per recipe
-SODIUM_LIMIT = 600       # mg per recipe
-
-RECIPES_FILE = Path(__file__).with_name(
-    "recipes_for_validation.json"
-)
+SUGAR_LIMIT = 10
+CARBS_LIMIT = 45
+SODIUM_LIMIT = 600
 
 
-# ==========================================
-# CSV Field Helpers
-# ==========================================
-
-def get_field(row, possible_names):
-    """Find a field using alternative column names."""
-
-    normalized_row = {
-        normalize_column(key): value
-        for key, value in row.items()
-    }
-
-    for name in possible_names:
+def get_field(row, *names):
+    for name in names:
         key = normalize_column(name)
+        value = row.get(key)
 
-        if key in normalized_row:
-            return normalized_row[key]
+        if value is not None and str(value).strip() != "":
+            return number_from_cell(value)
 
     return None
 
 
-# ==========================================
-# Allergy Warnings
-# ==========================================
-
-def is_positive(value):
-    """Interpret common positive CSV values."""
-
-    return str(value or "").strip().lower() in {
-        "yes", "true", "1", "contains", "present"
-    }
-
-
-def get_allergy_warnings(name, row, allergies):
-
+def get_allergy_warnings(name, allergies):
     warnings = []
 
-    name = normalize_name(name)
+    ingredient = normalize_name(name)
 
-    allergies = {
-        normalize_name(allergy)
-        for allergy in allergies
-    }
+    allergies = [
+        normalize_name(item)
+        for item in allergies
+    ]
 
-    # Egg allergy
-    if "egg" in allergies:
-
-        egg_status = None
-
-        if row is not None:
-            egg_status = get_field(
-                row,
-                [
-                    "egg_allergy_status",
-                    "contains_egg",
-                    "egg",
-                    "egg_allergen"
-                ]
-            )
-
-        egg_match = (
-            "egg" in name
-            or is_positive(egg_status)
+    if "egg" in allergies and ingredient == "egg":
+        warnings.append(
+            "Warning: Recipe contains egg, which matches the user's allergy."
         )
 
-        if egg_match:
-            warnings.append(
-                "Egg Allergy Warning: "
-                "This ingredient may contain egg."
-            )
-
-    # Banana allergy
-    if "banana" in allergies:
-
-        banana_status = None
-
-        if row is not None:
-            banana_status = get_field(
-                row,
-                [
-                    "banana_allergy_status",
-                    "contains_banana",
-                    "banana",
-                    "banana_allergen"
-                ]
-            )
-
-        banana_match = (
-            "banana" in name
-            or is_positive(banana_status)
+    if "banana" in allergies and ingredient == "banana":
+        warnings.append(
+            "Warning: Recipe contains banana, which matches the user's allergy."
         )
-
-        if banana_match:
-            warnings.append(
-                "Banana Allergy Warning: "
-                "This ingredient may contain banana."
-            )
-
-    # General allergen record
-    # Do not assign this field to a specific allergen
-    # unless its meaning is known.
-    if row is not None:
-
-        general_status = get_field(
-            row,
-            [
-                "allergen_egg_banana"
-            ]
-        )
-
-        if is_positive(general_status):
-
-            if not warnings:
-                warnings.append(
-                    "Allergen Warning: "
-                    "Check the recorded allergen information."
-                )
 
     return warnings
 
 
-# ==========================================
-# Print Recipe
-# ==========================================
-
 def print_recipe(recipe, validator):
 
-    test_case_id = recipe.get(
-        "test_case_id", "Unknown"
-    )
-
-    method = recipe.get(
-        "method", "Unknown"
-    )
-
-    recipe_name = recipe.get(
-        "recipe_name", "Unknown"
-    )
-
+    test_id = recipe.get("test_case_id", "Unknown")
+    method = recipe.get("method", "Unknown")
+    recipe_name = recipe.get("recipe_name", "Unnamed Recipe")
     allergies = recipe.get("allergies", [])
 
-    ingredients = []
+    ingredients = recipe.get("ingredients", [])
 
-    # Create IngredientAmount objects
-    for item in recipe.get("ingredients", []):
+    total_weight = 0
+    total_carbs = 0
+    total_sugar = 0
+    total_sodium = 0
 
-        amount = IngredientAmount(
-            name=str(item["name"]),
-            grams=float(item["quantity_g"])
-        )
-
-        ingredients.append(amount)
-
-    # Total weight
-    total_weight = sum(
-        item.grams for item in ingredients
-    )
-
-    # Nutrition totals
-    total_carbs = 0.0
-    total_sugar = 0.0
-    total_sodium = 0.0
-
-    unknown_carbs = []
-    unknown_sugar = []
-    unknown_sodium = []
-
-    allergy_warnings = []
-
-    # ======================================
-    # Recipe Information
-    # ======================================
+    nutrition_complete = True
+    allergy_summary = []
 
     print("\n" + "=" * 55)
-
-    print("TEST CASE:", test_case_id)
+    print("TEST CASE:", test_id)
     print("METHOD:", method)
     print("RECIPE:", recipe_name)
-
-    print(f"Total Recipe Weight: {total_weight:.2f} g")
 
     print("=" * 55)
 
     print("\nINGREDIENT DETAILS:")
 
-    # ======================================
-    # Process Ingredients
-    # ======================================
+    for ingredient in ingredients:
 
-    for item in ingredients:
+        name = normalize_name(ingredient.get("name", ""))
+        grams = number_from_cell(
+            ingredient.get("quantity_g")
+        )
 
-        name = item.name
-        grams = item.grams
+        if grams is None:
+            grams = 0
+
+        total_weight += grams
+
+        row = validator.items.get(name)
 
         print("\n" + "-" * 40)
-
         print("Ingredient:", name)
         print(f"Weight: {grams:.2f} g")
 
-        # Invalid weight
-        if grams <= 0:
-
-            print("Invalid ingredient weight.")
-
-            unknown_carbs.append(name)
-            unknown_sugar.append(name)
-            unknown_sodium.append(name)
-
-            continue
-
-        # Find ingredient in CSV
-        key = normalize_name(name)
-        row = validator.items.get(key)
-
         if row is None:
-
-            print("Nutrition data: UNAVAILABLE")
-
-            unknown_carbs.append(name)
-            unknown_sugar.append(name)
-            unknown_sodium.append(name)
-
-            warnings = get_allergy_warnings(
-                name, None, allergies
-            )
-
-            for warning in warnings:
-                print(warning)
-                allergy_warnings.append(warning)
-
+            print("Nutrition Data: Not available")
+            nutrition_complete = False
             continue
 
-        # ----------------------------------
-        # Read nutrition values per 100 g
-        # ----------------------------------
-
-        carbs_100g = number_from_cell(
-            get_field(
-                row,
-                [
-                    "carbohydrates_g_per_100g",
-                    "carbs_g_per_100g",
-                    "carbohydrates",
-                    "carbs"
-                ]
-            )
+        carbs_per_100g = get_field(
+            row, "carbohydrates_g_per_100g"
         )
 
-        sugar_100g = number_from_cell(
-            get_field(
-                row,
-                [
-                    "sugar_g_per_100g",
-                    "total_sugars_g_per_100g",
-                    "sugars_g_per_100g",
-                    "sugar",
-                    "sugars"
-                ]
-            )
+        sugar_per_100g = get_field(
+            row, "sugar_g_per_100g"
         )
 
-        sodium_100g = number_from_cell(
-            get_field(
-                row,
-                [
-                    "sodium_mg_per_100g",
-                    "sodium_mg",
-                    "sodium"
-                ]
-            )
+        sodium_per_100g = get_field(
+            row, "sodium_mg_per_100g"
         )
 
-        # Convert ingredient quantity to nutrition
-        factor = grams / 100.0
+        if (
+            carbs_per_100g is None
+            or sugar_per_100g is None
+            or sodium_per_100g is None
+        ):
+            nutrition_complete = False
 
         carbs = (
-            carbs_100g * factor
-            if carbs_100g is not None
-            else None
+            carbs_per_100g * grams / 100
+            if carbs_per_100g is not None else 0
         )
 
         sugar = (
-            sugar_100g * factor
-            if sugar_100g is not None
-            else None
+            sugar_per_100g * grams / 100
+            if sugar_per_100g is not None else 0
         )
 
         sodium = (
-            sodium_100g * factor
-            if sodium_100g is not None
-            else None
+            sodium_per_100g * grams / 100
+            if sodium_per_100g is not None else 0
         )
 
-        # ----------------------------------
-        # Display & Accumulate Carbohydrates
-        # ----------------------------------
+        total_carbs += carbs
+        total_sugar += sugar
+        total_sodium += sodium
 
-        if carbs is not None:
-
-            print(f"Carbohydrates: {carbs:.2f} g")
-            total_carbs += carbs
-
-        else:
-
-            print("Carbohydrates: UNAVAILABLE")
-            unknown_carbs.append(name)
-
-        # ----------------------------------
-        # Display & Accumulate Sugar
-        # ----------------------------------
-
-        if sugar is not None:
-
-            print(f"Sugar: {sugar:.2f} g")
-            total_sugar += sugar
-
-        else:
-
-            print("Sugar: UNAVAILABLE")
-            unknown_sugar.append(name)
-
-        # ----------------------------------
-        # Display & Accumulate Sodium
-        # ----------------------------------
-
-        if sodium is not None:
-
-            print(f"Sodium: {sodium:.2f} mg")
-            total_sodium += sodium
-
-        else:
-
-            print("Sodium: UNAVAILABLE")
-            unknown_sodium.append(name)
-
-        # ----------------------------------
-        # Allergy Check
-        # ----------------------------------
+        print(f"Carbohydrates: {carbs:.2f} g")
+        print(f"Sugar: {sugar:.2f} g")
+        print(f"Sodium: {sodium:.2f} mg")
 
         warnings = get_allergy_warnings(
-            name, row, allergies
+            name, allergies
         )
 
-        if warnings:
-
-            for warning in warnings:
-
-                print(warning)
-                allergy_warnings.append(warning)
-
-        else:
-
-            print(
-                "No recorded match found for "
-                "specified allergies."
-            )
-
-    # ======================================
-    # Total Nutrition
-    # ======================================
+        for warning in warnings:
+            print(warning)
+            allergy_summary.append(warning)
 
     print("\n" + "=" * 55)
     print("TOTAL NUTRITION")
     print("=" * 55)
 
     print(f"Total Recipe Weight: {total_weight:.2f} g")
+    print(f"Total Carbohydrates: {total_carbs:.2f} g")
+    print(f"Total Sugar: {total_sugar:.2f} g")
+    print(f"Total Sodium: {total_sodium:.2f} mg")
 
-    if unknown_carbs:
-
-        print(
-            f"Known Carbohydrates (PARTIAL): "
-            f"{total_carbs:.2f} g"
-        )
-
-    else:
-
-        print(
-            f"Total Carbohydrates: "
-            f"{total_carbs:.2f} g"
-        )
-
-    if unknown_sugar:
-
-        print(
-            f"Known Sugar (PARTIAL): "
-            f"{total_sugar:.2f} g"
-        )
-
-    else:
-
-        print(f"Total Sugar: {total_sugar:.2f} g")
-
-    if unknown_sodium:
-
-        print(
-            f"Known Sodium (PARTIAL): "
-            f"{total_sodium:.2f} mg"
-        )
-
-    else:
-
-        print(f"Total Sodium: {total_sodium:.2f} mg")
-
-    # ======================================
-    # Nutrition Data Status
-    # ======================================
-
-    nutrition_complete = (
-        not unknown_carbs
-        and not unknown_sugar
-        and not unknown_sodium
-    )
-
-    if nutrition_complete:
-        print("Nutrition Data Status: COMPLETE")
-    else:
-        print("Nutrition Data Status: INCOMPLETE")
-
-    # ======================================
-    # Nutrition Classification
-    # ======================================
+    status = "COMPLETE" if nutrition_complete else "INCOMPLETE"
+    print("Nutrition Data Status:", status)
 
     print("\nNUTRITION CLASSIFICATION")
     print("-" * 55)
 
-    # Sugar
-    if not unknown_sugar:
+    print(
+        "Sugar:",
+        "LOW" if total_sugar <= SUGAR_LIMIT else "HIGH"
+    )
 
-        if total_sugar >= SUGAR_LIMIT:
-            print("Sugar: HIGH")
-        else:
-            print("Sugar: LOW")
+    print(
+        "Carbohydrates:",
+        "LOW" if total_carbs <= CARBS_LIMIT else "HIGH"
+    )
 
-    else:
-        print("Sugar: INCOMPLETE")
-
-    # Carbohydrates
-    if not unknown_carbs:
-
-        if total_carbs >= CARBS_LIMIT:
-            print("Carbohydrates: HIGH")
-        else:
-            print("Carbohydrates: LOW")
-
-    else:
-        print("Carbohydrates: INCOMPLETE")
-
-    # Sodium
-    if not unknown_sodium:
-
-        if total_sodium >= SODIUM_LIMIT:
-            print("Sodium: HIGH")
-        else:
-            print("Sodium: LOW")
-
-    else:
-        print("Sodium: INCOMPLETE")
-
-    # ======================================
-    # Allergy Summary
-    # ======================================
+    print(
+        "Sodium:",
+        "LOW" if total_sodium <= SODIUM_LIMIT else "HIGH"
+    )
 
     print("\nALLERGY SUMMARY")
     print("-" * 55)
 
-    if allergy_warnings:
-
-        for warning in dict.fromkeys(allergy_warnings):
+    if allergy_summary:
+        for warning in allergy_summary:
             print(warning)
-
     else:
-
-        print(
-            "No recorded match found for "
-            "specified allergies."
-        )
-
-    print(
-        "This does not guarantee allergen safety."
-    )
+        print("No matching egg or banana ingredient found.")
 
     print("=" * 55)
 
 
-# ==========================================
-# Main
-# ==========================================
-
 def main():
 
     try:
-
         validator = NutritionValidator()
 
-        if not RECIPES_FILE.exists():
+        results_file = Path(__file__).with_name(
+            "all_results (2).json"
+        )
 
-            print(
-                "Error: recipes_for_validation.json "
-                "not found."
-            )
-
+        if not results_file.exists():
+            print("Error: all_results (2).json not found.")
             return
 
         with open(
-            RECIPES_FILE,
+            results_file,
             "r",
             encoding="utf-8"
         ) as file:
+            test_cases = json.load(file)
 
-            recipes = json.load(file)
+        print(f"Number of test cases: {len(test_cases)}")
 
-        # Support list or {"recipes": [...]}
-        if isinstance(recipes, dict):
-            recipes = recipes.get("recipes", [])
+        total_recipes = 0
 
-        if not recipes:
-            print("No recipes found.")
-            return
+        for case in test_cases:
 
-        print(f"Number of recipes: {len(recipes)}")
+            test_info = case.get("test_case", {})
 
-        for recipe in recipes:
-            print_recipe(recipe, validator)
+            test_id = test_info.get("id", "Unknown")
+            allergies = test_info.get("allergies", [])
 
-        print("\nFinished processing all recipes.")
+            print("\n")
+            print("#" * 65)
+            print("TEST CASE:", test_id)
+            print("Allergies:", allergies)
+            print("#" * 65)
 
-    except (FileNotFoundError, ValueError, KeyError) as error:
+            for method in ["prompt_only", "rag_assisted"]:
 
+                recipe = case.get(method)
+
+                if not recipe:
+                    continue
+
+                recipe_data = recipe.copy()
+
+                recipe_data["test_case_id"] = test_id
+                recipe_data["method"] = method
+                recipe_data["allergies"] = allergies
+
+                print_recipe(recipe_data, validator)
+
+                total_recipes += 1
+
+        print("\n" + "=" * 55)
+        print("VALIDATION SUMMARY")
+        print("=" * 55)
+        print(f"Number of recipes validated: {total_recipes}")
+        print("Finished validating available recipes.")
+
+    except (FileNotFoundError, ValueError, KeyError, TypeError) as error:
         print("Error:", error)
 
 
