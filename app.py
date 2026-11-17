@@ -7,7 +7,7 @@ import streamlit as st
 from PIL import Image
 
 from ingredient_detector import detect_ingredients
-
+from nutrition_validator import NutritionValidator, IngredientAmount
 # ==================================================
 # PAGE CONFIG
 # ==================================================
@@ -347,9 +347,6 @@ if st.session_state.page == "Overview":
             st.button("See the evaluation", use_container_width=True,
                       key="hero_eval", on_click=go, args=("Evaluation",))
         html("""
-        <div class="hero-tags">
-          <span>Ingredient vision</span><span>Guideline retrieval</span><span>Rule-based validation</span>
-        </div>
         """)
 
     with right:
@@ -576,8 +573,7 @@ elif st.session_state.page == "Evaluation":
         chips.append('<span class="summary-chip">High blood pressure</span>')
     for a in s.allergies:
         chips.append(f'<span class="summary-chip hl">{a} allergy</span>')
-    chips.append(f'<span class="summary-chip">≤ {s.carb_limit} g carbs</span>')
-    chips.append(f'<span class="summary-chip">≤ {s.sodium_limit} mg sodium</span>')
+ 
     html("".join(chips))
     st.write("")
 
