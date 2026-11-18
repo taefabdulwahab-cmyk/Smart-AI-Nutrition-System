@@ -1,9 +1,11 @@
 
 import os
 import json
+import math
 from google import genai
 from google.genai import types
 from config import MODEL
+
 
 SCHEMA = {
     "type": "OBJECT",
@@ -15,9 +17,14 @@ SCHEMA = {
                 "type": "OBJECT",
                 "properties": {
                     "name": {"type": "STRING"},
-                    "quantity_g": {"type": "NUMBER"}
+                    "quantity_g": {"type": "NUMBER"},
+                    "display_quantity": {"type": "STRING"}
                 },
-                "required": ["name", "quantity_g"]
+                "required": [
+                    "name",
+                    "quantity_g",
+                    "display_quantity"
+                ]
             }
         },
         "steps": {
@@ -52,11 +59,14 @@ def generate(
         )
 
     if not ingredients:
-        raise ValueError("No detected ingredients supplied")
+        raise ValueError(
+            "No detected ingredients supplied"
+        )
 
-    # Same base instructions for Prompt-only and RAG.
+    # Shared instructions for Prompt-only and RAG.
     prompt = f"""
-Create ONE single-serving recipe using ONLY these available food ingredients:
+Create ONE single-serving recipe using ONLY these available
+food ingredients:
 
 {json.dumps(ingredients, ensure_ascii=False)}
 
@@ -64,8 +74,10 @@ User dietary restrictions:
 - Allergies: {json.dumps(allergies, ensure_ascii=False)}
 - Diabetes: {diabetes}
 - Hypertension: {hypertension}
-- Maximum carbohydrates per serving (g): {carb_limit if diabetes else 'not applicable'}
-- Maximum sodium per serving (mg): {sodium_limit if hypertension else 'not applicable'}
+- Maximum carbohydrates per serving (g):
+  {carb_limit if diabetes else 'not applicable'}
+- Maximum sodium per serving (mg):
+  {sodium_limit if hypertension else 'not applicable'}
 
 IMPORTANT INGREDIENT RULES:
 1. Use ONLY ingredients from the available ingredients list.
@@ -85,13 +97,40 @@ IMPORTANT INGREDIENT RULES:
 15. Provide clear preparation steps.
 16. Try to meet active carbohydrate and sodium limits.
 17. Do not claim that the recipe has been independently validated.
-18. If no valid recipe is feasible, return an empty ingredients array and explain why in message.
+18. If no valid recipe is feasible, return an empty ingredients
+    array and explain why in message.
+
+INGREDIENT QUANTITY REQUIREMENTS:
+19. For each ingredient, provide its actual weight in grams
+    using the quantity_g field.
+20. The quantity_g field must represent the amount actually
+    used in the recipe, NOT a fixed 100-gram reference.
+21. Also provide display_quantity as a human-readable amount,
+    such as "2 eggs", "40 g", or "1/2 tbsp".
+22. Ensure display_quantity and quantity_g refer to the
+    same ingredient amount.
+23. For count-based ingredients, estimate the edible weight
+    in grams using a reasonable standard serving size.
+24. For spoon-based quantities, estimate the corresponding
+    weight in grams based on the specific ingredient.
+25. Do not assume all ingredients have the same density.
+26. Avoid unrealistic amounts or ambiguous units.
+27. Do not invent carbohydrate or sodium totals.
+28. The independent USDA validator will calculate nutrient
+    amounts using each ingredient's actual quantity_g.
+29. Do not report estimated nutritional compliance as
+    independently verified.
 
 OUTPUT REQUIREMENTS:
 - Return one recipe in JSON format.
 - Include recipe_name, ingredients, steps, and message.
-- Every ingredient name must match an available ingredient exactly.
-- Do not include additional ingredient descriptions in the name field.
+- Each ingredient must contain name, quantity_g,
+  and display_quantity.
+- Every ingredient name must match an available
+  ingredient exactly.
+- Do not include additional ingredient descriptions
+  in the name field.
+- Do not include calculated nutritional totals.
 """
 
     # Only RAG receives retrieved dietary guidelines.
@@ -119,7 +158,9 @@ OUTPUT REQUIREMENTS:
     )
 
     if not response.text:
-        raise ValueError("Gemini returned an empty response")
+        raise ValueError(
+            "Gemini returned an empty response"
+        )
 
     recipe = json.loads(response.text)
 
@@ -134,19 +175,30 @@ OUTPUT REQUIREMENTS:
 
         if name not in allowed:
             raise ValueError(
-                f"Generated ingredient not in available list: {item['name']}"
+                "Generated ingredient not in available list: "
+                f"{item['name']}"
             )
 
         quantity = item["quantity_g"]
 
         if (
-            not isinstance(quantity, (int, float))
-            or isinstance(quantity, bool)
+            isinstance(quantity, bool)
+            or not isinstance(quantity, (int, float))
+            or not math.isfinite(quantity)
             or quantity <= 0
         ):
             raise ValueError(
-                "Ingredient weights must be positive numbers"
+                "Ingredient weights must be positive finite numbers"
+            )
+
+        display_quantity = item["display_quantity"]
+
+        if (
+            not isinstance(display_quantity, str)
+            or not display_quantity.strip()
+        ):
+            raise ValueError(
+                "Each ingredient must have a valid display_quantity"
             )
 
     return recipe
-
